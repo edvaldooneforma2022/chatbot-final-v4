@@ -1,7 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const urlInput = document.getElementById('url-input');
-    const activateBtn = document.getElementById('activate-btn');
-    const chatWindow = document.getElementById('chat-window');
+    const generateBtn = document.getElementById('generateBtn');
+    const salesPageUrlInput = document.getElementById('salesPageUrl');
+    const chatContainer = document.getElementById('chatContainer');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const chatSendBtn = document.getElementById('chatSendBtn');
     
     let productDataCache = null;
 
@@ -9,17 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const msgDiv = document.createElement('div');
         msgDiv.className = `message ${sender}`;
         msgDiv.textContent = text;
-        chatWindow.appendChild(msgDiv);
+        chatMessages.appendChild(msgDiv);
         chatWindow.scrollTop = chatWindow.scrollHeight;
     };
 
-    activateBtn.addEventListener('click', async () => {
-        const url = urlInput.value.trim();
+    generateBtn.addEventListener('click', async () => {
+        const url = salesPageUrlInput.value.trim();
         if (!url) return alert('Por favor, insira uma URL.');
 
-        activateBtn.disabled = true;
-        activateBtn.textContent = 'Analisando...';
-        addMessage('Analisando a página. Isso pode levar alguns segundos...', 'bot');
+        generateBtn.disabled = true;
+        generateBtn.textContent = 'Analisando...';
+        addMessage('Analisando a página. Isso pode levar até 15 segundos...', 'bot');
+        chatContainer.classList.add('show');
 
         try {
             const response = await fetch('/api/extract', {
@@ -35,17 +39,36 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             addMessage(`Erro na análise: ${error.message}`, 'bot');
         } finally {
-            activateBtn.disabled = false;
-            activateBtn.textContent = 'Analisar Página';
+            generateBtn.disabled = false;
+            generateBtn.textContent = '🚀 Ativar Chatbot Inteligente';
         }
     });
 
-    document.querySelectorAll('.footer-btn').forEach(btn => {
+    const sendMessage = async () => {
+        const message = chatInput.value.trim();
+        if (!message || !productDataCache) return;
+
+        addMessage(message, 'user');
+        chatInput.value = '';
+
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message, productData: productDataCache }),
+        });
+        const data = await response.json();
+        addMessage(data.response, 'bot');
+    };
+
+    chatSendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendMessage());
+
+    document.querySelectorAll('.shortcut-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            const url = urlInput.value.trim();
+            const url = salesPageUrlInput.value.trim();
             if (!url) return alert('Insira a URL primeiro.');
             
-            const platform = btn.dataset.platform;
+            const platform = btn.dataset.tab;
             const textToCopy = `Confira este produto: ${url}`;
             navigator.clipboard.writeText(textToCopy).then(() => {
                 alert(`Link para ${platform.toUpperCase()} copiado!`);
