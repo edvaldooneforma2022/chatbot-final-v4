@@ -1,0 +1,16 @@
+{
+  "name": "linkmagico-chatbot-v4-stable",
+  "version": "4.0.0",
+  "description": "Chatbot com extração de dados via API ScrapingAnt.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.7",
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.0.3"
+  }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkMágico Chatbot v4.0</title>
+    <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css" />
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 1rem; }
+        #app-container { width: 100%; max-width: 420px; background: #fff; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.08 ); }
+        .header { padding: 1.5rem; text-align: center; background: #4a69bd; color: #fff; border-radius: 12px 12px 0 0; }
+        .content { padding: 1.5rem; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333; }
+        #url-input { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; }
+        #activate-btn { width: 100%; padding: 0.75rem; border: none; background: #4a69bd; color: #fff; border-radius: 8px; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+        #activate-btn:disabled { background: #a0b2d3; }
+        #chat-window { margin-top: 1rem; border: 1px solid #eee; border-radius: 8px; height: 250px; padding: 1rem; overflow-y: auto; }
+        .message { max-width: 85%; padding: 0.5rem 1rem; border-radius: 18px; margin-bottom: 0.5rem; }
+        .bot { background: #f1f1f1; color: #333; float: left; clear: both; }
+        .user { background: #4a69bd; color: #fff; float: right; clear: both; }
+        .footer { padding: 1rem; display: flex; gap: 1rem; justify-content: center; }
+        .footer-btn { padding: 0.5rem 1rem; border: 1px solid #ccc; background: #fff; border-radius: 8px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div id="app-container">
+        <div class="header"><h1>🤖 Chatbot de Vendas v4.0</h1></div>
+        <div class="content">
+            <div class="form-group">
+                <label for="url-input">URL da Página de Vendas:</label>
+                <input type="url" id="url-input" placeholder="https://...">
+            </div>
+            <button id="activate-btn">Analisar Página</button>
+            <div id="chat-window"></div>
+            <div class="footer">
+                <button class="footer-btn" data-platform="tiktok">🎵 TikTok</button>
+                <button class="footer-btn" data-platform="kwai">🎥 Kwai</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
